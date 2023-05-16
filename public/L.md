@@ -1,7 +1,7 @@
 ### debugging ts
 
 - use docs , they usually have ts example of library
-- use chatgpt - suprisingly good
+- use chatgpt - suprisingly good - very very very good, can process large chunks of code and context.
 - hover tricks
 - creating and editing a types.d.ts file
 - don't quit - exorcise
