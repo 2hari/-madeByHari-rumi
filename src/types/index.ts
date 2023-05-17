@@ -14,3 +14,10 @@ export type MonthlyData = {
   totalUnits: number
   _id: string
 }
+
+export type DailyData = {
+  date: string
+  totalSales: number
+  totalUnits: number
+  _id: string
+}
