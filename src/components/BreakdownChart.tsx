@@ -1,10 +1,17 @@
 import { ResponsivePie } from "@nivo/pie"
-import { Box, CircularProgress, Typography, useTheme } from "@mui/material"
+import {
+  Box,
+  CircularProgress,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material"
 
 import { useGetSalesQuery } from "../state/api"
 
 const BreakdownChart = ({ isDashboard = false }) => {
   const { data, isLoading } = useGetSalesQuery(undefined)
+  const isMobile = useMediaQuery("(max-width: 600px)")
   const theme = useTheme()
 
   if (!data || isLoading)
@@ -41,8 +48,8 @@ const BreakdownChart = ({ isDashboard = false }) => {
     <Box
       height={isDashboard ? "400px" : "100%"}
       width={undefined}
-      minHeight={isDashboard ? "325px" : undefined}
-      minWidth={isDashboard ? "325px" : undefined}
+      minHeight={isDashboard ? "225px" : undefined}
+      minWidth={isDashboard ? "225px" : undefined}
       position="relative"
     >
       <ResponsivePie
@@ -83,7 +90,9 @@ const BreakdownChart = ({ isDashboard = false }) => {
         colors={{ datum: "data.color" }}
         margin={
           isDashboard
-            ? { top: 40, right: 80, bottom: 100, left: 50 }
+            ? isMobile
+              ? { top: 40, right: 0, bottom: 100, left: 0 }
+              : { top: 40, right: 80, bottom: 100, left: 50 }
             : { top: 40, right: 80, bottom: 80, left: 80 }
         }
         sortByValue={true}
@@ -106,10 +115,10 @@ const BreakdownChart = ({ isDashboard = false }) => {
         legends={[
           {
             anchor: "bottom",
-            direction: "row",
+            direction: isMobile ? "column" : "row",
             justify: false,
-            translateX: isDashboard ? 20 : 0,
-            translateY: isDashboard ? 50 : 56,
+            translateX: isDashboard ? (isMobile ? 50 : 20) : 0,
+            translateY: isDashboard ? (isMobile ? 80 : 50) : 56,
             itemsSpacing: 0,
             itemWidth: 85,
             itemHeight: 18,
