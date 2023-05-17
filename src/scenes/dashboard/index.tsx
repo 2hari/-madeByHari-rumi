@@ -22,6 +22,8 @@ const Dashboard = () => {
   const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1200px)")
   const isMobile = useMediaQuery("(max-width: 600px)")
 
+  console.log(data)
+
   type value =
     | "span 12"
     | "span 8"
@@ -72,9 +74,8 @@ const Dashboard = () => {
 
   return (
     <Box m="1.5rem 2.5rem" pb="3rem">
-      <FlexBetween direction={isMobile ? "column" : "row"}>
+      <FlexBetween>
         <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-
         <Box>
           <Button
             sx={{
@@ -86,7 +87,7 @@ const Dashboard = () => {
             }}
           >
             <DownloadOutlined sx={{ mr: "10px" }} />
-            Download Reports
+            {isMobile ? "" : "Download Reports"}
           </Button>
         </Box>
       </FlexBetween>
