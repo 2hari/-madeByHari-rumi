@@ -10,6 +10,7 @@ import {
   Rating,
   useTheme,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material"
 
 import Header from "../../components/Header"
@@ -100,21 +101,40 @@ const Product = ({
 
 const Products = () => {
   const { data, isLoading } = useGetProductsQuery(undefined)
-  const isNonMobile = useMediaQuery("(min-width: 1000px)")
+  const isDesktop = useMediaQuery("(min-width: 1500px)")
+  const isLaptop = useMediaQuery("(min-width: 1200px) and (max-width: 1500px)")
+  const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1200px)")
+  const isMobile = useMediaQuery("(max-width: 600px)")
+
+  const gridColumnSpan = () => {
+    if (isDesktop) return "span 3"
+    if (isLaptop) return "span 4"
+    if (isTablet) return "span 6"
+    if (isMobile) return "span 12"
+  }
 
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box
+      m="1.5rem 2.5rem"
+      sx={{
+        minHeight: "75vh",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
+    >
       <Header title="PRODUCTS" subtitle="See your list of products." />
+
       {data || !isLoading ? (
         <Box
           mt="20px"
           display="grid"
-          gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+          gridTemplateColumns="repeat(12, minmax(0, 1fr))"
           justifyContent="space-between"
           rowGap="20px"
           columnGap="1.33%"
           sx={{
-            "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+            "& > div": { gridColumn: gridColumnSpan() },
           }}
         >
           {data.map(
@@ -143,7 +163,16 @@ const Products = () => {
           )}
         </Box>
       ) : (
-        <>Loading...</>
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-around",
+          }}
+        >
+          <CircularProgress color="inherit" />
+        </Box>
       )}
     </Box>
   )

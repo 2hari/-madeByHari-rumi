@@ -9,8 +9,10 @@ import { useGetUserQuery } from "../../state/api"
 import type { RootState } from "../../main"
 
 const Layout = () => {
-  const isNonMobile = useMediaQuery("(min-width: 600px)")
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const isNonMobile = useMediaQuery("(min-width: 920px)")
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() =>
+    isNonMobile ? true : false
+  )
   const userId = useSelector((state: RootState) => state.global.userId)
   const { data } = useGetUserQuery(userId)
 

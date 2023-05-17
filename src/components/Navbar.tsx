@@ -19,6 +19,7 @@ import {
   Menu,
   MenuItem,
   useTheme,
+  useMediaQuery,
 } from "@mui/material"
 
 import FlexBetween from "./FlexBetween"
@@ -35,7 +36,7 @@ type NavbarProps = {
 const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: NavbarProps) => {
   const dispatch = useDispatch()
   const theme = useTheme()
-
+  const isNonMobile = useMediaQuery("(min-width: 680px)")
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const isOpen = Boolean(anchorEl)
   const handleClick = (
@@ -62,6 +63,9 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: NavbarProps) => {
             borderRadius="9px"
             gap="3rem"
             p="0.1rem 1.5rem"
+            sx={{
+              display: isNonMobile ? "block" : "none",
+            }}
           >
             <InputBase placeholder="Search..." />
             <IconButton>
@@ -71,7 +75,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: NavbarProps) => {
         </FlexBetween>
 
         {/* RIGHT SIDE */}
-        <FlexBetween gap="1.5rem">
+        <FlexBetween gap={isNonMobile ? "1.5rem" : ".5rem"}>
           <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
               <DarkModeOutlined sx={{ fontSize: "25px" }} />
@@ -133,6 +137,21 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: NavbarProps) => {
           </FlexBetween>
         </FlexBetween>
       </Toolbar>
+      <FlexBetween
+        backgroundColor={theme.palette.background.alt}
+        borderRadius="9px"
+        gap="3rem"
+        p="0.1rem 0.8rem"
+        m="0 24px"
+        sx={{
+          display: isNonMobile ? "none" : "flex",
+        }}
+      >
+        <InputBase placeholder="Search..." sx={{ width: "100%" }} />
+        <IconButton>
+          <Search />
+        </IconButton>
+      </FlexBetween>
     </AppBar>
   )
 }
